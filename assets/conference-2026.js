@@ -9,7 +9,10 @@
     const title = root.querySelector('#organisers-2026-title');
     const section = title?.closest('.sr-section');
     const container = section?.querySelector('.sr-container');
-    if (!container || section.dataset.partnerRowsReady === 'true') return Boolean(container);
+    if (!container) return false;
+
+    const alreadyCorrect = container.querySelector('.sr-2026-partners-stack .sr-2026-partner-row--host img[src*="ATIT.png"]');
+    if (alreadyCorrect) return true;
 
     section.dataset.partnerRowsReady = 'true';
     section.classList.add('sr-2026-partners-section');
@@ -62,10 +65,19 @@
     return true;
   }
 
-  if (!renderPartners()) {
+  const ensurePartners = () => {
+    if (renderPartners()) return;
     const observer = new MutationObserver(() => {
       if (renderPartners()) observer.disconnect();
     });
     observer.observe(document.body, { childList: true, subtree: true });
+    setTimeout(() => renderPartners(), 50);
+    setTimeout(() => renderPartners(), 250);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensurePartners, { once: true });
+  } else {
+    ensurePartners();
   }
 })();
