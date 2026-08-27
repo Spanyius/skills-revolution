@@ -1,0 +1,80 @@
+@import url('../skills-revolution-redesign.css');
+
+/* 2026-08 compact modern refresh */
+:root {
+  --radius: 14px;
+  --radius-lg: 18px;
+  --shadow: 0 12px 36px rgba(24,32,45,.08);
+  --shadow-sm: 0 6px 20px rgba(24,32,45,.06);
+}
+
+body { font-size: 16px; }
+.sr-container { width: min(calc(100% - 36px), var(--max)); }
+.sr-page h1 { font-size: clamp(2.35rem, 5vw, 4.45rem); line-height: 1.02; }
+.sr-page h2 { font-size: clamp(1.7rem, 3vw, 2.65rem); line-height: 1.08; }
+.sr-page h3 { font-size: clamp(1.08rem, 1.7vw, 1.35rem); }
+.sr-lead { font-size: clamp(1.03rem, 1.4vw, 1.2rem); }
+.sr-section { padding-block: clamp(44px, 6vw, 72px); }
+.sr-section--soft { background: #f5f8f9; }
+.sr-section--white { background: #fff; }
+
+.sr-site-header__inner { min-height: 58px; }
+.sr-brand__mark { width: 34px; height: 34px; border-radius: 9px; }
+.sr-header-badge { padding: 5px 9px; }
+
+.sr-hero { min-height: 500px; padding-block: clamp(54px, 7vw, 82px); border-bottom: 0; }
+.sr-hero__grid { gap: clamp(34px, 6vw, 78px); }
+.sr-hero__art { min-height: 320px; }
+.sr-hex { width: 170px; box-shadow: 0 14px 34px rgba(24,32,45,.10); }
+.sr-hero__art::before { font-size: clamp(3.8rem, 7vw, 6.7rem); }
+.sr-hero__meta li { padding: 6px 10px; border: 0; box-shadow: none; background: rgba(255,255,255,.7); }
+
+.sr-facts { margin-top: -30px; border: 0; border-radius: 12px; box-shadow: 0 10px 28px rgba(24,32,45,.08); }
+.sr-fact { padding: 19px 22px; }
+.sr-fact + .sr-fact { border-left-color: rgba(24,32,45,.08); }
+
+.sr-card { padding: 22px; border: 0; border-radius: 12px; box-shadow: none; background: rgba(255,255,255,.92); }
+.sr-card::after { display: none; }
+.sr-grid { gap: 16px; }
+.sr-edition { border: 0 !important; box-shadow: none !important; }
+.sr-cta { border-radius: 16px !important; box-shadow: none !important; }
+.sr-form,.sr-contact-card { border: 0 !important; box-shadow: none !important; border-radius: 14px !important; }
+
+.sr-archive-hero { padding-block: clamp(42px, 6vw, 66px); border-bottom: 0; }
+.sr-archive-year { font-size: clamp(3.4rem, 8vw, 6.7rem); opacity: .72; }
+.sr-archive-note { margin-top: 16px; padding: 11px 14px; border-left-width: 3px; }
+
+/* Historical programme overview + collapsed programme */
+.sr-programme-summary { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:22px 0 18px; }
+.sr-programme-summary__item { padding:16px 17px; border-radius:12px; background:#fff; }
+.sr-programme-summary__label { display:block; margin-bottom:5px; color:var(--blue-dark); font-size:.7rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
+.sr-programme-summary__item strong { display:block; color:var(--navy); font-size:.96rem; line-height:1.35; }
+.sr-programme-details { border-radius:12px; background:#fff; }
+.sr-programme-details > summary { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:17px 19px; color:var(--navy); font-weight:900; cursor:pointer; list-style:none; }
+.sr-programme-details > summary::-webkit-details-marker { display:none; }
+.sr-programme-details > summary::after { content:'+'; flex:0 0 auto; color:var(--blue-dark); font-size:1.45rem; font-weight:500; }
+.sr-programme-details[open] > summary::after { content:'−'; }
+.sr-programme-details__hint { color:var(--muted); font-size:.86rem; font-weight:650; }
+.sr-programme-details .sr-agenda { border:0; border-top:1px solid rgba(24,32,45,.08); border-radius:0; }
+.sr-agenda-day__head { padding:20px 22px; }
+.sr-session { grid-template-columns:125px minmax(0,1fr); gap:20px; padding:18px 22px; }
+
+/* Compact 2026 conference roles */
+.sr-role-overview { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:24px; }
+.sr-role { min-width:0; padding:18px; border-radius:12px; background:#fff; }
+.sr-role__label { display:block; margin-bottom:8px; color:var(--blue-dark); font-size:.69rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
+.sr-role h3 { margin-bottom:8px; }
+.sr-role p { margin:0; font-size:.9rem; line-height:1.45; }
+.sr-role__names { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+.sr-role__name { display:inline-flex; align-items:center; min-height:28px; padding:4px 8px; border-radius:999px; background:var(--soft-blue); color:var(--blue-dark); font-size:.74rem; font-weight:800; }
+
+/* Less framing overall */
+.sr-logo-card { border:0; background:#f7f9fa; }
+.sr-footer { border-top:0 !important; }
+
+@media (max-width:820px) {
+  .sr-programme-summary,.sr-role-overview { grid-template-columns:1fr; }
+  .sr-session { grid-template-columns:1fr; gap:5px; }
+  .sr-hero { min-height:0; }
+  .sr-hero__art { min-height:240px; }
+}
