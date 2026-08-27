@@ -14,6 +14,13 @@
     c2026: BASE + 'conference-2026/'
   };
 
+  const navCss = document.createElement('link');
+  navCss.rel = 'stylesheet';
+  navCss.href = BASE + 'navigation.css';
+  document.head.appendChild(navCss);
+
+  const archiveActive = ['c2022', 'c2024', 'c2025', 'c2026'].includes(active);
+
   const header = document.createElement('header');
   header.className = 'sr-site-header';
   header.innerHTML = `
@@ -25,12 +32,19 @@
       <span class="sr-header-badge">Stuttgart 2027</span>
       <button class="sr-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav class="sr-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="${routes.home}" ${active === 'home' ? 'aria-current="page"' : ''}>2027</a>
+        <a href="${routes.home}" ${active === 'home' ? 'aria-current="page"' : ''}>2027 conference</a>
         <a href="${routes.about}" ${active === 'about' ? 'aria-current="page"' : ''}>About</a>
-        <a href="${routes.c2026}" ${active === 'c2026' ? 'aria-current="page"' : ''}>2026</a>
-        <a href="${routes.c2025}" ${active === 'c2025' ? 'aria-current="page"' : ''}>2025</a>
-        <a href="${routes.c2024}" ${active === 'c2024' ? 'aria-current="page"' : ''}>2024</a>
-        <a href="${routes.c2022}" ${active === 'c2022' ? 'aria-current="page"' : ''}>2022</a>
+        <div class="sr-nav-dropdown ${archiveActive ? 'is-current' : ''}">
+          <button class="sr-nav-dropdown__toggle" type="button" aria-expanded="false">
+            Conferences <span class="sr-nav-dropdown__icon" aria-hidden="true">▾</span>
+          </button>
+          <div class="sr-nav-dropdown__menu" aria-label="Previous conferences">
+            <a href="${routes.c2026}" ${active === 'c2026' ? 'aria-current="page"' : ''}><span class="sr-nav-dropdown__year">2026</span><span class="sr-nav-dropdown__place">Cluj-Napoca</span></a>
+            <a href="${routes.c2025}" ${active === 'c2025' ? 'aria-current="page"' : ''}><span class="sr-nav-dropdown__year">2025</span><span class="sr-nav-dropdown__place">Ostrava</span></a>
+            <a href="${routes.c2024}" ${active === 'c2024' ? 'aria-current="page"' : ''}><span class="sr-nav-dropdown__year">2024</span><span class="sr-nav-dropdown__place">Brussels</span></a>
+            <a href="${routes.c2022}" ${active === 'c2022' ? 'aria-current="page"' : ''}><span class="sr-nav-dropdown__year">2022</span><span class="sr-nav-dropdown__place">Stuttgart Region</span></a>
+          </div>
+        </div>
         <a href="${routes.contact}" ${active === 'contact' ? 'aria-current="page"' : ''}>Contact</a>
       </nav>
     </div>`;
@@ -42,10 +56,10 @@
       <div class="sr-footer__grid">
         <div>
           <h2>Skills (R)Evolution</h2>
-          <p>A European conference series connecting skills, industrial transformation, policy and practical implementation.</p>
+          <p>European conference series on workforce skills, industrial transformation, education and training, and implementation of sectoral skills strategies.</p>
         </div>
         <div>
-          <h3>Conference series</h3>
+          <h3>Conference archive</h3>
           <ul>
             <li><a href="${routes.home}">Stuttgart 2027</a></li>
             <li><a href="${routes.c2026}">Cluj-Napoca 2026</a></li>
@@ -57,7 +71,7 @@
         <div>
           <h3>Organiser</h3>
           <p>Automotive Skills Alliance</p>
-          <p><a href="${routes.contact}">Contact the organisers</a></p>
+          <p><a href="${routes.contact}">Conference contact</a></p>
         </div>
       </div>
       <div class="sr-footer__bottom">Skills (R)Evolution · Automotive Skills Alliance</div>
@@ -73,15 +87,26 @@
     menuButton.setAttribute('aria-expanded', String(open));
   });
 
+  const dropdown = header.querySelector('.sr-nav-dropdown');
+  const dropdownButton = dropdown.querySelector('.sr-nav-dropdown__toggle');
+  dropdownButton.addEventListener('click', event => {
+    event.stopPropagation();
+    const open = dropdown.classList.toggle('is-open');
+    dropdownButton.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', event => {
+    if (!dropdown.contains(event.target)) {
+      dropdown.classList.remove('is-open');
+      dropdownButton.setAttribute('aria-expanded', 'false');
+    }
+  });
+
   function rewriteLinks(root) {
     root.querySelectorAll('a[href]').forEach(link => {
       const href = link.getAttribute('href');
       if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('http')) return;
-      if (href === '/') {
-        link.setAttribute('href', BASE);
-      } else if (href.startsWith('/')) {
-        link.setAttribute('href', BASE + href.replace(/^\/+/, ''));
-      }
+      if (href === '/') link.setAttribute('href', BASE);
+      else if (href.startsWith('/')) link.setAttribute('href', BASE + href.replace(/^\/+/, ''));
     });
   }
 
@@ -90,16 +115,13 @@
     if (!form) return;
     form.addEventListener('submit', event => {
       event.preventDefault();
-      let notice = form.querySelector('.sr-form-notice');
-      if (!notice) {
-        notice = document.createElement('p');
-        notice.className = 'sr-form-notice';
-        notice.style.marginTop = '16px';
-        notice.style.fontWeight = '800';
-        notice.style.color = 'var(--teal-dark)';
-        form.appendChild(notice);
-      }
-      notice.textContent = 'Thanks — this static preview does not send email yet. Please contact office@skills-alliance.eu directly.';
+      const first = form.querySelector('[name="first_name"]')?.value || '';
+      const last = form.querySelector('[name="last_name"]')?.value || '';
+      const email = form.querySelector('[name="email"]')?.value || '';
+      const message = form.querySelector('[name="message"]')?.value || '';
+      const subject = encodeURIComponent('Skills (R)Evolution conference enquiry');
+      const bodyText = encodeURIComponent(`Name: ${first} ${last}\nEmail: ${email}\n\n${message}`);
+      window.location.href = `mailto:office@skills-alliance.eu?subject=${subject}&body=${bodyText}`;
     });
   }
 
