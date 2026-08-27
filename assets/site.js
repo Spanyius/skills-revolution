@@ -1,7 +1,7 @@
 (() => {
   const BASE = '/skills-revolution/';
   const ASSETS = BASE + 'assets/';
-  const VERSION = '20260827-modern';
+  const VERSION = '20260827-hero-2026';
   const body = document.body;
   const fragment = body.dataset.fragment;
   const active = body.dataset.page || '';
@@ -226,13 +226,63 @@
         <article class="sr-2026-partner-group">
           <span class="sr-2026-partner-label">Local host</span>
           <div class="sr-2026-logo-grid sr-2026-logo-grid--3">
-            ${logo('ATIT.png', 'Transilvania IT Cluster')}
+            ${logo('ATIT.avif', 'Transilvania IT Cluster')}
             ${logo('cluj%20muni.png', 'Cluj-Napoca Municipality')}
             ${logo('TU%20Cluj.png', 'Technical University of Cluj-Napoca')}
           </div>
           <div class="sr-2026-partner-names">Transilvania IT Cluster · Cluj-Napoca Municipality · UTCN</div>
         </article>
       </div>`;
+  }
+
+  function enhance2026Hero(root) {
+    if (active !== 'c2026') return;
+
+    const hero = root.querySelector('.sr-archive-hero');
+    if (!hero || hero.dataset.heroEnhanced === 'true') return;
+
+    hero.dataset.heroEnhanced = 'true';
+    hero.classList.add('sr-2026-hero');
+
+    const year = hero.querySelector('.sr-archive-year');
+    if (year) year.remove();
+
+    const art = document.createElement('div');
+    art.className = 'sr-2026-hero-art';
+    art.setAttribute('aria-hidden', 'true');
+    art.innerHTML = `
+      <div class="sr-2026-hex sr-2026-hex--outline sr-2026-hex--top"></div>
+      <div class="sr-2026-hex sr-2026-hex--soft sr-2026-hex--bottom-left"></div>
+      <div class="sr-2026-hex sr-2026-hex--accent sr-2026-hex--bottom-right"></div>
+
+      <div class="sr-2026-hex sr-2026-hex--car sr-2026-hex--main">
+        <svg viewBox="0 0 520 300" role="img" aria-label="Stylised connected car illustration">
+          <g fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M110 190h292c18 0 31-6 40-18l20-27c7-9 10-16 10-25 0-11-6-18-19-22l-67-20c-14-4-31-7-50-8l-113-4c-34-1-55 7-72 26l-34 39c-13 14-23 28-31 42l-6 11c-3 5-4 10-4 14 0 8 5 12 15 12z"/>
+            <circle cx="175" cy="196" r="33"/>
+            <circle cx="390" cy="196" r="33"/>
+            <path d="M160 118h160c19 0 33 5 47 16l22 17"/>
+            <path d="M202 116l27-38"/>
+            <path d="M292 117l17-38"/>
+            <path d="M135 154h52"/>
+            <path d="M319 154h87"/>
+            <path d="M432 85v28"/>
+            <path d="M418 99h28"/>
+            <path d="M72 92c12-17 30-28 54-31"/>
+            <path d="M64 118c22-8 44-9 66-2"/>
+            <path d="M448 54c14 4 28 13 39 28"/>
+            <path d="M434 52c0-18 15-33 33-33s33 15 33 33"/>
+            <path d="M90 58l14 14"/>
+            <path d="M466 137l22-13"/>
+            <path d="M408 53l-17-18"/>
+            <path d="M104 225h64"/>
+            <path d="M390 225h64"/>
+          </g>
+        </svg>
+      </div>
+    `;
+
+    hero.appendChild(art);
   }
 
   async function loadFragment() {
@@ -251,6 +301,7 @@
       enhanceContactForm(main);
       enhanceHistoricalProgramme(main);
       compact2026Roles(main);
+      enhance2026Hero(main);
     } catch (error) {
       mount.innerHTML = `<section class="sr-section"><div class="sr-container"><h1>Page temporarily unavailable</h1><p>The page source could not be loaded. Please refresh or return to the <a href="${routes.home}">homepage</a>.</p></div></section>`;
       console.error(error);
