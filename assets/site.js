@@ -1,5 +1,7 @@
 (() => {
   const BASE = '/skills-revolution/';
+  const ASSETS = BASE + 'assets/';
+  const VERSION = '20260827-modern';
   const body = document.body;
   const fragment = body.dataset.fragment;
   const active = body.dataset.page || '';
@@ -16,7 +18,7 @@
 
   const navCss = document.createElement('link');
   navCss.rel = 'stylesheet';
-  navCss.href = BASE + 'assets/navigation.css';
+  navCss.href = `${ASSETS}navigation.css?v=${VERSION}`;
   document.head.appendChild(navCss);
 
   const archiveActive = ['c2022', 'c2024', 'c2025', 'c2026'].includes(active);
@@ -130,29 +132,55 @@
     ]
   };
 
+  function removeArchiveNotices(root) {
+    root.querySelectorAll('.sr-archive-note').forEach(notice => notice.remove());
+  }
+
   function enhanceHistoricalProgramme(root) {
     const highlights = programmeHighlights[active];
     if (!highlights) return;
+
     const agenda = root.querySelector('.sr-agenda');
     if (!agenda) return;
+
     const section = agenda.closest('.sr-section');
     const container = agenda.parentElement;
+    if (!container) return;
+
+    const alreadyWrapped = agenda.closest('details.sr-programme-details');
+    if (alreadyWrapped) {
+      alreadyWrapped.removeAttribute('open');
+      return;
+    }
 
     const summary = document.createElement('div');
     summary.className = 'sr-programme-summary';
     summary.setAttribute('aria-label', 'Programme highlights');
-    summary.innerHTML = highlights.map(([label, value]) => `<div class="sr-programme-summary__item"><span class="sr-programme-summary__label">${label}</span><strong>${value}</strong></div>`).join('');
+    summary.innerHTML = highlights.map(([label, value]) => `
+      <div class="sr-programme-summary__item">
+        <span class="sr-programme-summary__label">${label}</span>
+        <strong>${value}</strong>
+      </div>`).join('');
+
+    const intro = document.createElement('p');
+    intro.className = 'sr-programme-intro';
+    intro.textContent = 'A quick overview is shown below. Expand the archive only if you want to browse the complete programme.';
 
     const details = document.createElement('details');
     details.className = 'sr-programme-details';
     const toggle = document.createElement('summary');
-    toggle.innerHTML = `<span>View the complete programme</span><span class="sr-programme-details__hint">Collapsed by default · click to expand</span>`;
+    toggle.innerHTML = `<span class="sr-programme-details__title">View the complete programme</span><span class="sr-programme-details__hint">Click to expand</span>`;
     details.appendChild(toggle);
+
     agenda.replaceWith(details);
     details.appendChild(agenda);
-
-    container.insertBefore(summary, details);
+    container.insertBefore(intro, details);
+    container.insertBefore(summary, intro);
     section?.classList.add('sr-programme-section');
+  }
+
+  function logo(src, alt, extraClass = '') {
+    return `<img class="sr-2026-logo ${extraClass}" src="${ASSETS}${src}" alt="${alt}" loading="lazy">`;
   }
 
   function compact2026Roles(root) {
@@ -161,13 +189,49 @@
     const section = title?.closest('.sr-section');
     const container = section?.querySelector('.sr-container');
     if (!container) return;
+
+    section.classList.add('sr-2026-partners-section');
     container.innerHTML = `
-      <span class="sr-kicker">Conference structure</span>
-      <h2 id="organisers-2026-title">Who made the 2026 conference happen</h2>
-      <div class="sr-role-overview">
-        <article class="sr-role"><span class="sr-role__label">Organized by</span><h3>Automotive Skills Alliance & TRIREME</h3><p>Automotive Pact for Skills partnership and Erasmus+ Blueprint cooperation.</p><div class="sr-role__names"><span class="sr-role__name">ASA</span><span class="sr-role__name">Pact for Skills</span><span class="sr-role__name">TRIREME</span><span class="sr-role__name">EU co-funded</span></div></article>
-        <article class="sr-role"><span class="sr-role__label">Strategic conference partner</span><h3>SEMI Europe & ECS Academy</h3><p>Semiconductor Pact for Skills partnership and European Chips Skills Academy.</p><div class="sr-role__names"><span class="sr-role__name">SEMI Europe</span><span class="sr-role__name">Pact for Skills</span><span class="sr-role__name">ECS Academy</span><span class="sr-role__name">EU co-funded</span></div></article>
-        <article class="sr-role"><span class="sr-role__label">Local host</span><h3>Cluj-Napoca ecosystem</h3><p>Regional innovation, municipality and university partners.</p><div class="sr-role__names"><span class="sr-role__name">Transilvania IT Cluster</span><span class="sr-role__name">Cluj-Napoca Municipality</span><span class="sr-role__name">UTCN</span></div></article>
+      <div class="sr-2026-partners-head">
+        <div>
+          <span class="sr-kicker">Conference structure</span>
+          <h2 id="organisers-2026-title">2026 organisers and partners</h2>
+        </div>
+        <p>Automotive, semiconductor and local host ecosystems behind the Cluj-Napoca edition.</p>
+      </div>
+
+      <div class="sr-2026-partners-grid">
+        <article class="sr-2026-partner-group">
+          <span class="sr-2026-partner-label">Organized by</span>
+          <div class="sr-2026-logo-grid sr-2026-logo-grid--4">
+            ${logo('asa.png', 'Automotive Skills Alliance')}
+            ${logo('pfs.png', 'Pact for Skills')}
+            ${logo('trireme.png', 'TRIREME')}
+            ${logo('cofunded.png', 'Co-funded by the European Union', 'sr-2026-logo--wide')}
+          </div>
+          <div class="sr-2026-partner-names">Automotive Skills Alliance · TRIREME</div>
+        </article>
+
+        <article class="sr-2026-partner-group">
+          <span class="sr-2026-partner-label">Strategic conference partner</span>
+          <div class="sr-2026-logo-grid sr-2026-logo-grid--4">
+            ${logo('semi.png', 'SEMI Europe')}
+            ${logo('pfs.png', 'Pact for Skills')}
+            ${logo('ecsa.png', 'European Chips Skills Academy')}
+            ${logo('cofunded.png', 'Co-funded by the European Union', 'sr-2026-logo--wide')}
+          </div>
+          <div class="sr-2026-partner-names">SEMI Europe · ECS Academy</div>
+        </article>
+
+        <article class="sr-2026-partner-group">
+          <span class="sr-2026-partner-label">Local host</span>
+          <div class="sr-2026-logo-grid sr-2026-logo-grid--3">
+            ${logo('ATIT.png', 'Transilvania IT Cluster')}
+            ${logo('cluj%20muni.png', 'Cluj-Napoca Municipality')}
+            ${logo('TU%20Cluj.png', 'Technical University of Cluj-Napoca')}
+          </div>
+          <div class="sr-2026-partner-names">Transilvania IT Cluster · Cluj-Napoca Municipality · UTCN</div>
+        </article>
       </div>`;
   }
 
@@ -175,7 +239,7 @@
     const mount = document.getElementById('site-content');
     if (!fragment || !mount) return;
     try {
-      const response = await fetch(BASE + fragment, { cache: 'no-store' });
+      const response = await fetch(`${BASE}${fragment}?v=${VERSION}`, { cache: 'no-store' });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const html = await response.text();
       const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -183,6 +247,7 @@
       if (!main) throw new Error('Page content not found');
       mount.replaceWith(main);
       rewriteLinks(main);
+      removeArchiveNotices(main);
       enhanceContactForm(main);
       enhanceHistoricalProgramme(main);
       compact2026Roles(main);
