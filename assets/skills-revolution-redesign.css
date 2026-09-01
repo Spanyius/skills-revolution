@@ -201,6 +201,79 @@ body[data-page="c2026"] .sr-2026-hex--main svg { width:84%; height:auto; display
 .sr-section--navy .sr-prose { max-width:62ch; }
 .sr-footer { border-top:0 !important; }
 
+/* Stuttgart 2027 hero image with a high-transparency readability veil */
+body[data-page="home"] .sr-hero {
+  background:
+    linear-gradient(90deg,rgba(251,253,254,.97) 0%,rgba(244,249,250,.91) 47%,rgba(228,240,241,.64) 100%),
+    url('stuttgart-2027-hero.webp') center / cover no-repeat;
+}
+body[data-page="home"] .sr-hero::before { opacity:.15; }
+body[data-page="home"] .sr-hero__art { opacity:.82; }
+body[data-page="home"] .sr-facts { grid-template-columns:minmax(0,1.55fr) minmax(260px,.8fr); }
+
+/* Automotive Skills Alliance organiser lockups */
+.sr-asa-lockup {
+  display:inline-flex;
+  max-width:290px;
+  align-items:center;
+  gap:13px;
+  margin-top:15px;
+  padding:10px 13px;
+  border:1px solid rgba(24,32,45,.08);
+  border-radius:11px;
+  color:var(--navy);
+  background:rgba(255,255,255,.88);
+  text-decoration:none;
+}
+.sr-asa-lockup:hover { color:var(--blue-dark); background:#fff; }
+.sr-asa-lockup img { width:148px; height:auto; flex:0 0 auto; }
+.sr-asa-lockup span { font-size:.7rem; font-weight:850; line-height:1.25; letter-spacing:.04em; text-transform:uppercase; }
+.sr-footer__asa { display:inline-block; padding:9px 11px; border-radius:9px; background:#fff; }
+.sr-footer__asa img { display:block; width:178px; height:auto; }
+
+/* 2027 programme placeholder */
+.sr-programme-update { padding:clamp(28px,5vw,54px); }
+.sr-programme-update__time {
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) minmax(0,1.3fr);
+  gap:8px 24px;
+  align-items:center;
+  max-width:820px;
+  margin-top:26px;
+  padding:18px 20px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:11px;
+  color:#fff;
+  background:rgba(255,255,255,.09);
+}
+.sr-programme-update__time span { color:#cfe2e8; font-size:.72rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
+.sr-programme-update__time strong { font-size:clamp(1rem,1.7vw,1.25rem); line-height:1.35; }
+
+/* Editorial article cards for each conference edition */
+.sr-reading-section { background:linear-gradient(135deg,#edf4f7 0%,#f7fafb 100%); }
+.sr-reading-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:30px; }
+.sr-article-card {
+  position:relative;
+  display:flex;
+  min-height:255px;
+  flex-direction:column;
+  padding:25px;
+  overflow:hidden;
+  border:1px solid rgba(24,32,45,.07);
+  border-radius:14px;
+  color:var(--ink);
+  background:rgba(255,255,255,.94);
+  box-shadow:0 10px 30px rgba(24,32,45,.045);
+  text-decoration:none;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.sr-article-card::before { position:absolute; top:0; left:0; width:100%; height:4px; background:linear-gradient(90deg,var(--blue),var(--teal)); content:""; }
+.sr-article-card:hover { border-color:rgba(36,105,169,.2); color:var(--ink); box-shadow:0 16px 36px rgba(24,32,45,.08); transform:translateY(-3px); }
+.sr-article-card__source { margin-bottom:20px; color:var(--blue-dark); font-size:.69rem; font-weight:900; letter-spacing:.09em; text-transform:uppercase; }
+.sr-article-card h3 { margin-bottom:12px; }
+.sr-article-card p { margin:0 0 22px; font-size:.92rem; }
+.sr-article-card__link { margin-top:auto; color:var(--navy); font-size:.82rem; font-weight:900; }
+
 @media (max-width:1100px) {
   body[data-page="c2026"] .sr-2026-hero-art { width:42vw; min-width:340px; }
   body[data-page="c2026"] .sr-2026-hex--main { width:260px; height:228px; right:42px; }
@@ -215,6 +288,14 @@ body[data-page="c2026"] .sr-2026-hex--main svg { width:84%; height:auto; display
 }
 
 @media (max-width:820px) {
+  body[data-page="home"] .sr-facts { grid-template-columns:1fr; }
+  body[data-page="home"] .sr-hero {
+    background:
+      linear-gradient(180deg,rgba(251,253,254,.96) 0%,rgba(241,247,248,.9) 62%,rgba(226,239,240,.78) 100%),
+      url('stuttgart-2027-hero.webp') center / cover no-repeat;
+  }
+  .sr-reading-grid { grid-template-columns:1fr; }
+  .sr-programme-update__time { grid-template-columns:1fr; }
   .sr-programme-summary { grid-template-columns:1fr; }
   .sr-session { grid-template-columns:1fr; gap:4px; }
   .sr-hero { min-height:0; }
@@ -246,4 +327,6 @@ body[data-page="c2026"] .sr-2026-hex--main svg { width:84%; height:auto; display
   .sr-2026-logo { height:44px; }
   .sr-2026-logo--wide { height:38px; }
   .sr-2026-logo-grid--3 .sr-2026-logo { height:48px; }
+  .sr-asa-lockup { max-width:100%; }
+  .sr-asa-lockup img { width:132px; }
 }

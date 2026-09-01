@@ -33,7 +33,6 @@
       <button class="sr-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav class="sr-nav" id="site-nav" aria-label="Primary navigation">
         <a href="${routes.home}" ${active === 'home' ? 'aria-current="page"' : ''}>2027 conference</a>
-        <a href="${routes.about}" ${active === 'about' ? 'aria-current="page"' : ''}>About</a>
         <div class="sr-nav-dropdown ${archiveActive ? 'is-current' : ''}">
           <button class="sr-nav-dropdown__toggle" type="button" aria-expanded="false">
             Conferences <span class="sr-nav-dropdown__icon" aria-hidden="true">▾</span>
@@ -45,6 +44,7 @@
             <a href="${routes.c2022}" ${active === 'c2022' ? 'aria-current="page"' : ''}><span class="sr-nav-dropdown__year">2022</span><span class="sr-nav-dropdown__place">Stuttgart Region</span></a>
           </div>
         </div>
+        <a href="${routes.about}" ${active === 'about' ? 'aria-current="page"' : ''}>About</a>
         <a href="${routes.contact}" ${active === 'contact' ? 'aria-current="page"' : ''}>Contact</a>
       </nav>
     </div>`;
