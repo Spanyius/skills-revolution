@@ -49,8 +49,10 @@
     const main = document.querySelector('main.sr-page');
     if (!venue || !main || main.querySelector('.sr-map-section')) return Boolean(main);
 
-    const venueTitle = main.querySelector('[id^="venue-"]');
-    const venueSection = venueTitle?.closest('.sr-section');
+    const organisersTitle = main.querySelector('[id^="organisers-"]');
+    const organisersSection = organisersTitle?.closest('.sr-section');
+    const coverageTitle = main.querySelector('[id^="coverage-"]');
+    const coverageSection = coverageTitle?.closest('.sr-section');
     const archiveTitle = main.querySelector('[id^="archive-nav-"]');
     const archiveSection = archiveTitle?.closest('.sr-section');
 
@@ -58,7 +60,8 @@
     template.innerHTML = mapMarkup(venue).trim();
     const mapSection = template.content.firstElementChild;
 
-    if (venueSection) venueSection.insertAdjacentElement('afterend', mapSection);
+    if (organisersSection) organisersSection.insertAdjacentElement('afterend', mapSection);
+    else if (coverageSection) coverageSection.insertAdjacentElement('beforebegin', mapSection);
     else if (archiveSection) archiveSection.insertAdjacentElement('beforebegin', mapSection);
     else main.appendChild(mapSection);
     return true;

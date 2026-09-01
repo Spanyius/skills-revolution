@@ -1,7 +1,7 @@
 (() => {
   const BASE = '/skills-revolution/';
   const ASSETS = BASE + 'assets/';
-  const VERSION = '20260901-content';
+  const VERSION = '20260901-archive2';
   const body = document.body;
   const fragment = body.dataset.fragment;
   const active = body.dataset.page || '';
