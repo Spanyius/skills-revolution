@@ -1,7 +1,7 @@
 (() => {
   const BASE = '/skills-revolution/';
   const ASSETS = BASE + 'assets/';
-  const VERSION = '20260901-archive2';
+  const VERSION = '20260904-brand';
   const body = document.body;
   const fragment = body.dataset.fragment;
   const active = body.dataset.page || '';
@@ -28,15 +28,14 @@
   header.innerHTML = `
     <div class="sr-container sr-site-header__inner">
       <a class="sr-brand" href="${routes.home}" aria-label="Skills (R)Evolution home">
-        <span class="sr-brand__mark" aria-hidden="true">SR</span>
-        <span>Skills (R)Evolution</span>
+        <img class="sr-brand__logo" src="${ASSETS}skills-revolution-logo.png" alt="Skills (R)Evolution">
       </a>
       <span class="sr-header-badge">Stuttgart 2027</span>
       <button class="sr-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav class="sr-nav" id="site-nav" aria-label="Primary navigation">
         <a href="${routes.home}" ${active === 'home' ? 'aria-current="page"' : ''}>2027 conference</a>
         <div class="sr-nav-dropdown ${archiveActive ? 'is-current' : ''}">
-          <button class="sr-nav-dropdown__toggle" type="button" aria-expanded="false">Conferences <span class="sr-nav-dropdown__icon" aria-hidden="true">▾</span></button>
+          <button class="sr-nav-dropdown__toggle" type="button" aria-expanded="false">Previous conferences <span class="sr-nav-dropdown__icon" aria-hidden="true">▾</span></button>
           <div class="sr-nav-dropdown__menu" aria-label="Previous conferences">
             <a href="${routes.c2026}" ${active === 'c2026' ? 'aria-current="page"' : ''}><span class="sr-nav-dropdown__year">2026</span><span class="sr-nav-dropdown__place">Cluj-Napoca</span></a>
             <a href="${routes.c2025}" ${active === 'c2025' ? 'aria-current="page"' : ''}><span class="sr-nav-dropdown__year">2025</span><span class="sr-nav-dropdown__place">Ostrava</span></a>
@@ -54,9 +53,13 @@
   footer.innerHTML = `
     <div class="sr-container">
       <div class="sr-footer__grid">
-        <div><h2>Skills (R)Evolution</h2><p>European conference series on workforce skills, industrial transformation, education and training, and implementation of sectoral skills strategies.</p></div>
+        <div><img class="sr-footer__brand-logo" src="${ASSETS}skills-revolution-logo.png" alt="Skills (R)Evolution"><p>European conference series on workforce skills, industrial transformation, education and training, and implementation of sectoral skills strategies.</p></div>
         <div><h3>Conference archive</h3><ul><li><a href="${routes.home}">Stuttgart 2027</a></li><li><a href="${routes.c2026}">Cluj-Napoca 2026</a></li><li><a href="${routes.c2025}">Ostrava 2025</a></li><li><a href="${routes.c2024}">Brussels 2024</a></li><li><a href="${routes.c2022}">Stuttgart 2022</a></li></ul></div>
         <div><h3>Organiser</h3><a class="sr-footer__asa" href="https://automotive-skills-alliance.eu/" target="_blank" rel="noopener noreferrer"><img src="${ASSETS}asa.png" alt="Automotive Skills Alliance"></a><p><a href="${routes.contact}">Conference contact</a></p></div>
+      </div>
+      <div class="sr-footer__funding">
+        <a href="https://erasmus-plus.ec.europa.eu/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Erasmus+ website"><img src="${ASSETS}cofunded.png" alt="Co-funded by the European Union"></a>
+        <p>Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Education and Culture Executive Agency (EACEA). Neither the European Union nor EACEA can be held responsible for them.</p>
       </div>
       <div class="sr-footer__bottom">Skills (R)Evolution · Automotive Skills Alliance</div>
     </div>`;
